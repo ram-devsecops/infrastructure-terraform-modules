@@ -1,21 +1,22 @@
-# Create IAM policy
+# Create IAM profile, role, and policy
 module "iam" {
   source           = "../iam"
   iam_profile_name = "${var.iam_profile_name}"
 }
 
 # Create S3 bucket to be the home for our public keys
-resource "aws_s3_bucket" "ssh" {
-  bucket        = "${var.s3_bucket_name}"
-  acl           = "public-read"
-  force_destroy = "${var.s3_bucket_force_destroy}"
+module "bucket" {
+  source            = "../s3-bucket"
 
-  tags {
-    Terraform   = true
-    Name        = "${var.s3_bucket_name}"
-    Environment = "${var.vpc_environment}"
-    Bastion     = true
-  }
+  bucket_name       = "${var.s3_bucket_name}"
+  acl               = "public-read"
+  enable_destroying = "${var.s3_bucket_enable_destroying}"
+  enable_versioning = false
+
+  tags              = "${merge(
+    var.default_tags,
+    var.tags
+  )}"
 }
 
 # Create bastion instance
@@ -25,7 +26,7 @@ module "bastion" {
   instance_type               = "t2.micro"
   ami                         = "${var.bastion_ami}"
   iam_instance_profile        = "${module.iam.profile_name}"
-  s3_bucket_name              = "${aws_s3_bucket.ssh.id}"
+  s3_bucket_name              = "${module.bucket.id}"
   vpc_id                      = "${var.vpc_id}"
   region                      = "${var.vpc_region}"
   subnet_ids                  = ["${var.subnet_ids}"]

@@ -7,8 +7,8 @@ resource "aws_iam_role" "role" {
 }
 
 resource "aws_iam_role_policy" "policy" {
-  name = "${var.iam_profile_name}-policy"
-  role = "${aws_iam_role.role.id}"
+  name   = "${var.iam_profile_name}-policy"
+  role   = "${aws_iam_role.role.id}"
 
   policy = "${var.iam_role_policy}"
 }

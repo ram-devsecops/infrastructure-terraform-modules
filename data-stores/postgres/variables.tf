@@ -8,7 +8,7 @@ variable "vpc_environment" {
 }
 
 variable "db_name_prefix" {
-  description = "(required) The prefix to give the created database. Always appended with the index of the database. E.g., mydatabase0, mydatabse1, etc."
+  description = "(required) The prefix to give the created database. It will always be appended with its index. E.g., mydatabase0, mydatabse1, etc."
 }
 
 variable "db_username" {
@@ -27,6 +27,17 @@ variable "security_group_ids" {
   description = "List of VPC security groups to associate."
   type        = "list"
   default     = []
+}
+
+variable "default_tags" {
+  default = {
+    Terraform = true
+    Datastore = true
+  }
+}
+
+variable "tags" {
+  default = {}
 }
 
 # Self-explanatory custom defaults

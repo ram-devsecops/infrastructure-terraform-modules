@@ -6,10 +6,6 @@ variable "vpc_region" {
   description = "(required) The default aws region for your vpc."
 }
 
-variable "vpc_environment" {
-  description = "(required) The environment tag for the given vpc. Please use one of the following: d,q,s,p."
-}
-
 variable "subnet_ids" {
   description = "(required) List of subnet ids where auto-scaling should create instances"
   type        = "list"
@@ -27,15 +23,26 @@ variable "bastion_cron_update_frequency" {
 
 variable "s3_bucket_name" {
   description = "The S3 bucket name for storing keys. Defaults to sbi-infrastructure."
-  default     = "sbi-infrastructure"
+  default     = "silverbackinsights-bastion-keys"
 }
 
-variable "s3_bucket_force_destroy" {
-  description = "Whether or not to rimraf S3 bucket and contents on destroy. Defaults to false."
+variable "s3_bucket_enable_destroying" {
+  description = "Whether or not to allow rimraf S3 bucket and contents. Defaults to false."
   default     = "false"
 }
 
 variable "iam_profile_name" {
   description = "IAM profile name for pulling public keys from S3 bucket. Defaults to s3-readonly."
   default     = "s3-readonly"
+}
+
+variable "default_tags" {
+  default = {
+    Terraform = true
+    Bastion   = true
+  }
+}
+
+variable "tags" {
+  default = {}
 }

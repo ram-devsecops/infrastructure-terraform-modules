@@ -1,5 +1,5 @@
 output "s3_bucket_name" {
-  value = "${aws_s3_bucket.ssh.id}"
+  value = "${module.bucket.id}"
 }
 
 output "bastion_security_group_id" {
