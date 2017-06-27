@@ -6,6 +6,10 @@ variable "vpc_region" {
   description = "(required) The default aws region for your vpc."
 }
 
+variable "vpc_environment" {
+  description = "The environment tag. Please use one of the following: d,q,s,p."
+}
+
 variable "subnet_ids" {
   description = "(required) List of subnet ids where auto-scaling should create instances"
   type        = "list"
@@ -19,10 +23,6 @@ variable "bastion_ami" {
 variable "bastion_cron_update_frequency" {
   description = "The cron formatted schedule for refreshing ssh keys from S3 bucket. Defaults to every 15 minutes (*/15 * * * *)"
   default     = "*/15 * * * *"
-}
-
-variable "s3_bucket_name" {
-  description = "(required) The S3 bucket name for storing keys."
 }
 
 variable "s3_bucket_enable_destroying" {

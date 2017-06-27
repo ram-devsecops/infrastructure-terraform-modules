@@ -1,31 +1,31 @@
 # VPC variables
-variable "vpc_project_name" {
+variable "project_name" {
   description = "The arbitrary name you are going to give this project."
+  default     = "sbi"
 }
 
-variable "vpc_environment" {
+variable "environment" {
   description = "The environment tag. Please use one of the following: d,q,s,p. Defaults to d (dev)."
-  default = "d"
 }
 
-variable "vpc_region" {
+variable "region" {
   description = "The main aws region for your VPC. Defaults to us-east-2."
   default     = "us-east-2"
 }
 
-variable "vpc_availability_zones" {
+variable "availability_zones" {
   default = [
     "us-east-2a",
     "us-east-2c"
   ]
 }
 
-variable "vpc_cidr" {
+variable "cidr" {
   default = "10.0.0.0/16"
 }
 
 
-variable "vpc_private_subnets" {
+variable "private_subnets" {
   type = "list"
   default = [
     "10.0.1.0/24",
@@ -33,7 +33,7 @@ variable "vpc_private_subnets" {
   ]
 }
 
-variable "vpc_public_subnets" {
+variable "public_subnets" {
   type = "list"
   default = [
     "10.0.101.0/24",
@@ -41,7 +41,7 @@ variable "vpc_public_subnets" {
   ]
 }
 
-variable "vpc_database_subnets" {
+variable "database_subnets" {
   type = "list"
   default = [
     "10.0.201.0/24",
@@ -49,6 +49,16 @@ variable "vpc_database_subnets" {
   ]
 }
 
-variable "enabled_nat_gateway" {
-  default = false
+variable "enable_nat_gateway" {
+  default = true
+}
+
+variable "default_tags" {
+  default = {
+    Terraform = true
+  }
+}
+
+variable "tags" {
+  default = {}
 }

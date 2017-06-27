@@ -8,13 +8,16 @@ module "iam" {
 module "bucket" {
   source            = "../s3-bucket"
 
-  bucket_name       = "${var.s3_bucket_name}"
+  bucket_name       = "silverbackinsights-bastion-keys-${var.vpc_environment}"
   acl               = "public-read"
   enable_destroying = "${var.s3_bucket_enable_destroying}"
   enable_versioning = false
 
   tags              = "${merge(
     var.default_tags,
+    map(
+      "Environment", "${var.vpc_environment}"
+    ),
     var.tags
   )}"
 }
