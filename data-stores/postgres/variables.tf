@@ -1,10 +1,6 @@
 # DB variables
-variable "project_name" {
-  description = "(required) The arbitrary name you are going to give this project."
-}
-
 variable "vpc_environment" {
-  description = "(required) The environment tag. Please use one of the following: d,q,s,p."
+  description = "The environment tag. Please use one of the following: d,q,s,p."
 }
 
 variable "db_name_prefix" {
