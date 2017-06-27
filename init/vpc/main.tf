@@ -2,17 +2,20 @@
 module "vpc" {
   source                = "github.com/terraform-community-modules/tf_aws_vpc"
 
-  name                  = "vpc-${var.vpc_project_name}-${var.vpc_environment}"
-  cidr                  = "${var.vpc_cidr}"
-  public_subnets        = "${var.vpc_public_subnets}"
-  private_subnets       = "${var.vpc_private_subnets}"
-  database_subnets      = "${var.vpc_database_subnets}"
-  enable_nat_gateway    = "${var.vpc_enabled_nat_gateway}"
-  azs                   = "${var.vpc_availability_zones}"
+  name                  = "vpc-${var.project_name}-${var.environment}"
+  cidr                  = "${var.cidr}"
+  public_subnets        = "${var.public_subnets}"
+  private_subnets       = "${var.private_subnets}"
+  database_subnets      = "${var.database_subnets}"
+  enable_nat_gateway    = "${var.enable_nat_gateway}"
+  azs                   = "${var.availability_zones}"
 
-  tags {
-    Terraform   = true
-    Environment = "${var.vpc_environment}"
-    Project     = "${var.vpc_project_name}"
-  }
+  tags = "${merge(
+    var.default_tags,
+    map(
+      "Environment", "${var.environment}",
+      "Project",     "${var.project_name}"
+    ),
+    var.tags
+  )}"
 }

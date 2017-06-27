@@ -6,6 +6,10 @@ variable "vpc_region" {
   description = "(required) The default aws region for your vpc."
 }
 
+variable "vpc_environment" {
+  description = "The environment tag. Please use one of the following: d,q,s,p."
+}
+
 variable "subnet_ids" {
   description = "(required) List of subnet ids where auto-scaling should create instances"
   type        = "list"
