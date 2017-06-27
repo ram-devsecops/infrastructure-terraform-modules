@@ -33,6 +33,8 @@ variable "default_tags" {
   default = {
     Terraform = true
     Datastore = true
+    PG        = true
+    Postgres  = true
   }
 }
 

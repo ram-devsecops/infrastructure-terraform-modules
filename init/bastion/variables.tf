@@ -22,13 +22,12 @@ variable "bastion_cron_update_frequency" {
 }
 
 variable "s3_bucket_name" {
-  description = "The S3 bucket name for storing keys. Defaults to sbi-infrastructure."
-  default     = "silverbackinsights-bastion-keys"
+  description = "(required) The S3 bucket name for storing keys."
 }
 
 variable "s3_bucket_enable_destroying" {
   description = "Whether or not to allow rimraf S3 bucket and contents. Defaults to false."
-  default     = "false"
+  default     = false
 }
 
 variable "iam_profile_name" {

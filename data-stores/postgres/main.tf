@@ -34,11 +34,6 @@ resource "aws_db_instance" "postgres" {
 
   tags                    = "${merge(
     var.default_tags,
-    map(
-      "Project",  "${var.project_name}",
-      "PG",       true,
-      "Postgres", true
-    ),
     var.tags
   )}"
 }
