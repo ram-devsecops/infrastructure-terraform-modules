@@ -22,7 +22,6 @@ variable "db_subnet_group_name" {
 variable "security_group_ids" {
   description = "List of VPC security groups to associate."
   type        = "list"
-  default     = []
 }
 
 variable "default_tags" {
