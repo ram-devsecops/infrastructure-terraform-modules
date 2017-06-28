@@ -4,10 +4,6 @@ variable "project_name" {
   default     = "sbi"
 }
 
-variable "environment" {
-  description = "The environment tag. Please use one of the following: d,q,s,p. Defaults to d (dev)."
-}
-
 variable "region" {
   description = "The main aws region for your VPC. Defaults to us-east-2."
   default     = "us-east-2"
@@ -43,22 +39,21 @@ variable "public_subnets" {
 
 variable "database_subnets" {
   type = "list"
-  default = [
-    "10.0.201.0/24",
-    "10.0.202.0/24"
-  ]
+  default = []
 }
 
 variable "enable_nat_gateway" {
   default = true
 }
 
-variable "default_tags" {
-  default = {
-    Terraform = true
-  }
+variable "enable_dns_hostnames" {
+  default = true
 }
 
-variable "tags" {
-  default = {}
+variable "enable_dns_support" {
+  default = true
+}
+
+variable "enable_public_ip_on_launch" {
+  default = true
 }

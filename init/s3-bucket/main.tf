@@ -7,12 +7,4 @@ resource "aws_s3_bucket" "bucket" {
   versioning {
     enabled = "${var.enable_versioning}"
   }
-
-  tags = "${merge(
-    var.default_tags,
-    map(
-      "Name", "${var.bucket_name}"
-    ),
-    var.tags
-  )}"
 }

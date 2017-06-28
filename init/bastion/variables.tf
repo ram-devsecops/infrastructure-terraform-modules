@@ -6,13 +6,21 @@ variable "vpc_region" {
   description = "(required) The default aws region for your vpc."
 }
 
-variable "vpc_environment" {
-  description = "The environment tag. Please use one of the following: d,q,s,p."
-}
-
 variable "subnet_ids" {
   description = "(required) List of subnet ids where auto-scaling should create instances"
   type        = "list"
+}
+
+variable "key_name" {
+  description = "(required) Launch configuration key name to be applied to created instance(s)"
+}
+
+variable "key_file" {
+  description = "(required) The relative path to the public key file"
+}
+
+variable "enable_public_ip" {
+  default = true
 }
 
 variable "bastion_cron_update_frequency" {
@@ -30,18 +38,12 @@ variable "s3_bucket_enable_versioning" {
   default     = true
 }
 
+variable "additional_user_data_script" {
+  description = "The body of any custom script that should be run after instance is up"
+  default     = "date"
+}
+
 variable "iam_profile_name" {
   description = "IAM profile name for pulling public keys from S3 bucket. Defaults to s3-readonly."
   default     = "s3-readonly"
-}
-
-variable "default_tags" {
-  default = {
-    Terraform = true
-    Bastion   = true
-  }
-}
-
-variable "tags" {
-  default = {}
 }

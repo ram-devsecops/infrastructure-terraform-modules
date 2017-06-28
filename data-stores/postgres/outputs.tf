@@ -1,7 +1,3 @@
-output "db_name" {
-  value = "${aws_db_instance.postgres.name}"
-}
-
-output "db_arn" {
-  value = "${aws_db_instance.postgres.arn}"
+output "db_security_group_id" {
+  value = "${module.pg.database_security_group_id}"
 }
