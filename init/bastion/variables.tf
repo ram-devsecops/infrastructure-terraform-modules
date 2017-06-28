@@ -15,11 +15,6 @@ variable "subnet_ids" {
   type        = "list"
 }
 
-variable "bastion_ami" {
-  description = "The ami to base the bastion server. Defaults to ami-9be6f38c."
-  default     = "ami-9be6f38c"
-}
-
 variable "bastion_cron_update_frequency" {
   description = "The cron formatted schedule for refreshing ssh keys from S3 bucket. Defaults to every 15 minutes (*/15 * * * *)"
   default     = "*/15 * * * *"
