@@ -58,7 +58,7 @@ module "bastion" {
   source                      = "github.com/terraform-community-modules/tf_aws_bastion_s3_keys"
 
   instance_type               = "t2.micro"
-  ami_id                      = "${data.aws_ami.bastion.id}"
+  ami                         = "${data.aws_ami.bastion.id}"
   iam_instance_profile        = "${module.iam.profile_name}"
   s3_bucket_name              = "${module.bucket.id}"
   vpc_id                      = "${var.vpc_id}"
