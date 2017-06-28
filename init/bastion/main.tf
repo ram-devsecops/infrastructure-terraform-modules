@@ -11,7 +11,7 @@ module "bucket" {
   bucket_name       = "silverbackinsights-bastion-keys-${var.vpc_environment}"
   acl               = "public-read"
   enable_destroying = "${var.s3_bucket_enable_destroying}"
-  enable_versioning = false
+  enable_versioning = "${var.s3_bucket_enable_versioning}"
 
   tags              = "${merge(
     var.default_tags,

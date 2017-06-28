@@ -30,6 +30,11 @@ variable "s3_bucket_enable_destroying" {
   default     = false
 }
 
+variable "s3_bucket_enable_versioning" {
+  description = "Whether or not to allow versioning of S3 bucket contents. Defaults to true."
+  default     = true
+}
+
 variable "iam_profile_name" {
   description = "IAM profile name for pulling public keys from S3 bucket. Defaults to s3-readonly."
   default     = "s3-readonly"
