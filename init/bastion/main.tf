@@ -64,6 +64,7 @@ module "bastion" {
   subnet_ids                  = ["${var.subnet_ids}"]
   keys_update_frequency       = "${var.bastion_cron_update_frequency}"
   additional_user_data_script = "${var.additional_user_data_script}"
+  associate_public_ip_address = "${var.enable_public_ip}"
   ssh_user                    = "ec2-user"
   key_name                    = "${var.key_name}"
 }

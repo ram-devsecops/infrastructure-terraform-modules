@@ -20,7 +20,8 @@ variable "key_file" {
 }
 
 variable "enable_public_ip" {
-  default = true
+  description = "Whether to auto-assign public IP to the instance"
+  default     = true
 }
 
 variable "bastion_cron_update_frequency" {
