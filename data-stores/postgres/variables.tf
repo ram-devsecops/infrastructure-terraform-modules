@@ -7,15 +7,16 @@ variable "db_password" {
   description = "(required) The master db password. Should come from an environment variable"
 }
 
-variable "security_group_ids" {
-  description = "(required) List of VPC security groups to associate."
-  type        = "list"
-}
-
 variable "subnet_ids" {
   description = "(required) List of subnet ids where auto-scaling should create instances"
   type        = "list"
 }
+
+variable "bastion_security_group_id" {
+  description = "(required)  The Bastion host's security group id"
+}
+
+# Self-explanatory custom defaults 👇
 
 variable "vpc_project_name" {
   description = "The arbitrary project name given to the vpc"
@@ -32,7 +33,11 @@ variable "db_username" {
   default     = "master"
 }
 
-# Self-explanatory custom defaults
+variable "route53_zone_name" {
+  description = "Name of the hosted zone"
+  default     = "internal.silverbackinsights.com."
+}
+
 variable "allocated_storage" {
   default = 5
 }
