@@ -19,6 +19,12 @@ variable "key_file" {
   description = "(required) The relative path to the public key file"
 }
 
+# https://aws.amazon.com/marketplace/fulfillment?productId=62d5ecb3-bf00-4d35-a156-3b849a54e308&ref_=dtl_psb_continue&region=us-east-1
+variable "ami_id" {
+  description = "The ami to base the bastion host on"
+  default     = "ami-abc1ebbd"
+}
+
 variable "enable_public_ip" {
   description = "Whether to auto-assign public IP to the instance"
   default     = true
