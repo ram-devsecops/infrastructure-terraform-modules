@@ -5,14 +5,14 @@ variable "project_name" {
 }
 
 variable "region" {
-  description = "The main aws region for your VPC. Defaults to us-east-2."
-  default     = "us-east-2"
+  description = "The main aws region for your VPC. Defaults to us-east-1."
+  default     = "us-east-1"
 }
 
 variable "availability_zones" {
   default = [
-    "us-east-2a",
-    "us-east-2c"
+    "us-east-1a",
+    "us-east-1c"
   ]
 }
 
