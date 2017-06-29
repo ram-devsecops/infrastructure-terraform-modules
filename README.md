@@ -3,6 +3,8 @@
 # infrastructure-terraform-modules
 A collection of reusable Terraform modules
 
+Looking for an orchestration of these modules? Check out our [infrastructure-terraform](https://github.com/silverback-insights/infrastructure-terraform) repo.
+
 ## Supported modules
 
 * [Initialization](./init)
