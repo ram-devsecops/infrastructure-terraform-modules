@@ -16,15 +16,3 @@ variable "enable_versioning" {
   description = "Whether or not to enable object versioning. Defaults to false."
   default = false
 }
-
-variable "default_tags" {
-  default = {
-    Terraform = true
-    S3        = true
-    S3Bucket  = true
-  }
-}
-
-variable "tags" {
-  default = {}
-}

@@ -1,3 +1,8 @@
+resource "aws_key_pair" "bastion" {
+  key_name   = "${var.key_name}"
+  public_key = "${file(var.key_file)}"
+}
+
 # Create IAM profile, role, and policy
 module "iam" {
   source           = "../iam"
@@ -8,18 +13,10 @@ module "iam" {
 module "bucket" {
   source            = "../s3-bucket"
 
-  bucket_name       = "silverbackinsights-bastion-keys-${var.vpc_environment}"
+  bucket_name       = "silverbackinsights-bastion-keys"
   acl               = "public-read"
   enable_destroying = "${var.s3_bucket_enable_destroying}"
   enable_versioning = "${var.s3_bucket_enable_versioning}"
-
-  tags              = "${merge(
-    var.default_tags,
-    map(
-      "Environment", "${var.vpc_environment}"
-    ),
-    var.tags
-  )}"
 }
 
 # Get us the newest base ami to update our launch configurations
@@ -57,6 +54,7 @@ data "aws_ami" "bastion" {
 module "bastion" {
   source                      = "github.com/terraform-community-modules/tf_aws_bastion_s3_keys"
 
+  name                        = "bastion"
   instance_type               = "t2.micro"
   ami                         = "${data.aws_ami.bastion.id}"
   iam_instance_profile        = "${module.iam.profile_name}"
@@ -65,5 +63,7 @@ module "bastion" {
   region                      = "${var.vpc_region}"
   subnet_ids                  = ["${var.subnet_ids}"]
   keys_update_frequency       = "${var.bastion_cron_update_frequency}"
-  additional_user_data_script = "date"
+  additional_user_data_script = "${var.additional_user_data_script}"
+  ssh_user                    = "ec2-user"
+  key_name                    = "${var.key_name}"
 }
