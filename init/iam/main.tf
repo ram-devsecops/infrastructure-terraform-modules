@@ -3,7 +3,7 @@ resource "aws_iam_role" "role" {
   name = "${var.iam_profile_name}-role"
   path = "/"
 
-  assume_role_policy = "${var.iam_role_role_policy}"
+  assume_role_policy = "${var.role_assume_role_policy}"
 }
 
 resource "aws_iam_role_policy" "policy" {

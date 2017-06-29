@@ -28,6 +28,11 @@ variable "bastion_cron_update_frequency" {
   default     = "*/15 * * * *"
 }
 
+variable "s3_bucket_name_suffix" {
+  description = "The suffix to append to the s3 bucket created to hold public keys"
+  default     = ""
+}
+
 variable "s3_bucket_enable_destroying" {
   description = "Whether or not to allow rimraf S3 bucket and contents. Defaults to false."
   default     = false
