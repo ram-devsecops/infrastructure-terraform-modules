@@ -19,10 +19,10 @@ variable "key_file" {
   description = "(required) The relative path to the public key file"
 }
 
-# https://aws.amazon.com/marketplace/fulfillment?productId=62d5ecb3-bf00-4d35-a156-3b849a54e308&ref_=dtl_psb_continue&region=us-east-1
+# https://aws.amazon.com/amazon-linux-ami (scroll down and select the proper [region][HVM][non-SSD] ami)
 variable "ami_id" {
   description = "The ami to base the bastion host on"
-  default     = "ami-abc1ebbd"
+  default     = "ami-34c0ea22"
 }
 
 variable "enable_public_ip" {
@@ -33,6 +33,11 @@ variable "enable_public_ip" {
 variable "bastion_cron_update_frequency" {
   description = "The cron formatted schedule for refreshing ssh keys from S3 bucket. Defaults to every 15 minutes (*/15 * * * *)"
   default     = "*/15 * * * *"
+}
+
+variable "s3_bucket_name_base" {
+  description = "The base name for the s3 bucket that contains the public keys"
+  default     = "silverbackinsights-bastion-host-keys"
 }
 
 variable "s3_bucket_name_suffix" {
