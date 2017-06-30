@@ -13,7 +13,7 @@ module "iam" {
 module "bucket" {
   source            = "../s3-bucket"
 
-  bucket_name       = "silverbackinsights-bastion-keys-${var.s3_bucket_name_suffix}"
+  bucket_name       = "silverbackinsights-bastion-host-${var.s3_bucket_name_suffix}"
   acl               = "public-read"
   enable_destroying = "${var.s3_bucket_enable_destroying}"
   enable_versioning = "${var.s3_bucket_enable_versioning}"

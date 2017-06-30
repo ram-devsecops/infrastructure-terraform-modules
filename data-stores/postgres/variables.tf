@@ -18,9 +18,14 @@ variable "bastion_security_group_id" {
 
 # Self-explanatory custom defaults 👇
 
-variable "vpc_project_name" {
-  description = "The arbitrary project name given to the vpc"
+variable "db_project_name" {
+  description = "The arbitrary project name given to the db"
   default     = "SilverbackInsights"
+}
+
+variable "db_environment" {
+  description = "The arbitrary environment name given to the db"
+  default     = "Live"
 }
 
 variable "db_name" {
@@ -92,4 +97,24 @@ variable "publicly_accessible" {
 
 variable "skip_final_snapshot" {
   default = true
+}
+
+variable "alarm_max_cpu_percentage" {
+  description = "CPU alarm threshold as a percentage (default: 75)"
+  default = 75
+}
+
+variable "alarm_disk_queue_threshold" {
+  description = "Disk queue alarm threshold (default: 10)"
+  default = 10
+}
+
+variable "alarm_free_disk_threshold_in_bytes" {
+  description = "Free disk alarm threshold in bytes (default: 5000000000)"
+  default = 5000000000
+}
+
+variable "alarm_free_memory_threshold_in_bytes" {
+  description = "Free memory alarm threshold in bytes (default: 128000000)"
+  default = 128000000
 }
