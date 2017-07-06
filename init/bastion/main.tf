@@ -19,13 +19,40 @@ module "bucket" {
   enable_versioning = "${var.s3_bucket_enable_versioning}"
 }
 
+//  Define an Amazon Linux AMI.
+data "aws_ami" "ami" {
+  most_recent = true
+
+  owners = ["137112412989"]
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "name"
+    values = ["amzn-ami-hvm-*"]
+  }
+}
+
 # Create bastion instance
 module "bastion" {
   source                      = "github.com/terraform-community-modules/tf_aws_bastion_s3_keys"
 
   name                        = "bastion"
   instance_type               = "t2.micro"
-  ami                         = "${var.ami_id}"
+  ami                         = "${data.aws_ami.ami.id}"
   iam_instance_profile        = "${module.iam.profile_name}"
   s3_bucket_name              = "${module.bucket.id}"
   vpc_id                      = "${var.vpc_id}"
