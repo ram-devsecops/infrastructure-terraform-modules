@@ -1,7 +1,11 @@
 # The arn for the CI/CD user
 variable "cicd_user_arn" {}
 
-variable "domain" {
+variable "domain_cert" {
+  default = "*.silverbackinsights.com"
+}
+
+variable "domain_fqdn" {
   default = "dev.silverbackinsights.com"
 }
 
