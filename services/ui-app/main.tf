@@ -31,19 +31,19 @@ EOF
 # Create ECS user profile
 resource "aws_iam_instance_profile" "profile" {
   name = "${var.iam_profile_name}"
-  role = ["${aws_iam_role.ecs.name}"]
+  role = "${aws_iam_role.ecs.name}"
 }
 
 # Attach default ECS role policy
 resource "aws_iam_role_policy_attachment" "ecs_default" {
   role       = "${aws_iam_role.ecs.name}"
-  policy_arn = "${arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }
 
 # Attach ECS for EC2 role policy
 resource "aws_iam_role_policy_attachment" "ecs_for_ec2" {
   role       = "${aws_iam_role.ecs.name}"
-  policy_arn = "${arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
 # Create Cloudwatch Logs policy
@@ -144,7 +144,7 @@ resource "aws_iam_role_policy" "ecs_kms" {
         "kms:DescribeKey"
       ],
       "Resource": [
-        "${data.aws_kms_alias.sensitive_data.arn}"
+        "${data.aws_kms_alias.sensitive.arn}"
       ]
     },
     {
@@ -156,7 +156,7 @@ resource "aws_iam_role_policy" "ecs_kms" {
         "kms:RevokeGrant"
       ],
       "Resource": [
-        "${data.aws_kms_alias.sensitive_data.arn}"
+        "${data.aws_kms_alias.sensitive.arn}"
       ],
       "Condition": {
         "Bool": {
@@ -171,13 +171,13 @@ EOF
 
 # Create CloudWatch log group
 resource "aws_cloudwatch_log_group" "logs" {
-  name = "${var.vpc_environment}-logs"
+  name = "logs"
 }
 
 # UI App Security Group
 resource "aws_security_group" "app" {
   vpc_id      = "${var.vpc_id}"
-  name        = "${var.security_group_name}-alb-sg-${var.vpc_environment}"
+  name        = "${var.security_group_name}"
   description = "Security group for the bare essentials for the ELB & ECS"
 
   tags {

@@ -56,15 +56,15 @@ resource "aws_security_group_rule" "rule" {
   security_group_id = "${module.pg.database_security_group_id}"
 }
 
-# data "aws_route53_zone" "zone" {
-#   name    = "${var.route53_zone_name}"
-#   vpc_id  = "${var.vpc_id}"
-# }
-#
-# resource "aws_route53_record" "pg" {
-#   zone_id = "${data.aws_route53_zone.zone.zone_id}"
-#   name    = "psql.${data.aws_route53_zone.zone.name}"
-#   type    = "CNAME"
-#   ttl     = "300"
-#   records = ["${module.pg.hostname}"]
-# }
+data "aws_route53_zone" "zone" {
+  name    = "${var.route53_zone_name}"
+  vpc_id  = "${var.vpc_id}"
+}
+
+resource "aws_route53_record" "pg" {
+  zone_id = "${data.aws_route53_zone.zone.zone_id}"
+  name    = "psql.${data.aws_route53_zone.zone.name}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = ["${module.pg.hostname}"]
+}

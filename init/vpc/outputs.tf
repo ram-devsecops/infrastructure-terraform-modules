@@ -22,3 +22,7 @@ output "public_subnet_ids" {
 output "private_subnet_ids" {
   value = "${module.vpc.private_subnets}"
 }
+
+output "availability_zones" {
+  value = ["${var.availability_zones}"]
+}

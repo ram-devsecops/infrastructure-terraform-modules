@@ -16,8 +16,7 @@ variable "bastion_security_group_id" {
   description = "(required)  The Bastion host's security group id"
 }
 
-# Self-explanatory custom defaults 👇
-
+# Defaulted values 👇
 variable "db_project_name" {
   description = "The arbitrary project name given to the db"
   default     = "SilverbackInsights"

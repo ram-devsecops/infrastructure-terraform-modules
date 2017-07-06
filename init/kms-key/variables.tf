@@ -1,3 +1,4 @@
+# Defaulted values 👇
 variable "description" {
   description = "The description for the generated key"
   default     = "Sensitive Data Key"

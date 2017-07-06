@@ -1,15 +1,24 @@
-variable "vpc_id" {}
-variable "vpc_environment" {}
-variable "ui_app_security_group_id" {}
-variable "bastion_security_group_id" {}
-variable "postgres_security_group_id" {}
-variable "ecs_instance_role_name" {}
-
-variable "availability_zones" {
-  type = "list"
+variable "vpc_id" {
+  description = "The vpc id for this environment."
 }
 
-variable "subnets" {
+variable "ui_app_security_group_id" {
+  description = "The security group id of the ui app"
+}
+
+variable "bastion_security_group_id" {
+  description = "The security group id of the bastion host"
+}
+
+variable "postgres_security_group_id" {
+  description = "The security group id of postgres"
+}
+
+variable "iam_profile_name" {
+  description = "IAM profile name for creating the graphql AWS Launch Configuration"
+}
+
+variable "availability_zones" {
   type = "list"
 }
 
@@ -21,6 +30,7 @@ variable "subnets_public" {
   type = "list"
 }
 
+# Defaulted values 👇
 variable "domain_cert" {
   description = "The cert domain name (in ACM)"
   default     = "*.silverbackinsights.com"
@@ -36,9 +46,9 @@ variable "pub_key_name" {
   default     = "sbi-bastion"
 }
 
-variable "ecs_instance_type" {
+variable "instance_type" {
   description = "The size of the grapql instance(s)"
-  default     = "t2.small"
+  default     = "t2.micro"
 }
 
 variable "min_size" {

@@ -1,9 +1,4 @@
-# VPC variables
-variable "project_name" {
-  description = "The arbitrary name you are going to give this project."
-  default     = "sbi"
-}
-
+# Defaulted values 👇
 variable "region" {
   description = "The main aws region for your VPC. Defaults to us-east-1."
   default     = "us-east-1"
@@ -19,7 +14,6 @@ variable "availability_zones" {
 variable "cidr" {
   default = "10.0.0.0/16"
 }
-
 
 variable "private_subnets" {
   type = "list"

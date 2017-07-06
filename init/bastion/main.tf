@@ -19,7 +19,7 @@ module "bucket" {
   enable_versioning = "${var.s3_bucket_enable_versioning}"
 }
 
-//  Define an Amazon Linux AMI.
+# Find the freshest Amazon Linux AMI
 data "aws_ami" "ami" {
   most_recent = true
 

@@ -1,5 +1,6 @@
+# Create security group to allow incoming connections
 resource "aws_security_group" "graphql" {
-  name        = "${var.cluster_name}-sg-${var.vpc_environment}"
+  name        = "${var.cluster_name}"
   description = "Allow incoming api connections."
   vpc_id = "${var.vpc_id}"
 
@@ -132,10 +133,10 @@ resource "aws_security_group_rule" "graphql-redis-out" {
 
 # Create ecs service cluster
 resource "aws_ecs_cluster" "ecs_cluster" {
-  name = "${var.cluster_name}-${var.vpc_environment}"
+  name = "${var.cluster_name}"
 }
 
-# Find the freshest Amazon Linux AMI.
+# Find the freshest Amazon Linux AMI
 data "aws_ami" "ami" {
   most_recent = true
 
@@ -163,14 +164,14 @@ data "aws_ami" "ami" {
 }
 
 resource "aws_launch_configuration" "ecs_launch_config" {
-  name_prefix                 = "${var.cluster_name}-server-"
+  name_prefix                 = "${var.cluster_name}-"
   image_id                    = "${data.aws_ami.ami.id}"
-  instance_type               = "${var.ecs_instance_type}"
+  instance_type               = "${var.instance_type}"
   key_name                    = "${var.pub_key_name}"
   security_groups             = ["${aws_security_group.graphql.id}"]
-  iam_instance_profile        = "${var.ecs_instance_role_name}"
+  iam_instance_profile        = "${var.iam_profile_name}"
   associate_public_ip_address = false
-  user_data                   = "#!/bin/bash\necho ECS_CLUSTER=${aws_ecs_cluster.ecs_cluster.name} >> /etc/ecs/ecs.config"
+  user_data                   = "#!/bin/bash\necho ECS_CLUSTER=\"${aws_ecs_cluster.ecs_cluster.name}\" >> /etc/ecs/ecs.config"
 
   lifecycle {
     create_before_destroy = true
@@ -185,36 +186,28 @@ resource "aws_launch_configuration" "ecs_launch_config" {
 
 # Create internal graphql zone
 resource "aws_route53_zone" "graphql" {
-  name    = "internal.silverbackinsights.com."
-  vpc_id  = "${var.vpc_id}"
+  name   = "internal.silverbackinsights.com."
+  vpc_id = "${var.vpc_id}"
 }
 
 # Create efs file system
 resource "aws_efs_file_system" "efs_ecs" {
   creation_token = "efs-ecs"
-  tags {
-    Name = "efs-ecs"
-  }
 }
 
 resource "aws_efs_mount_target" "efs_ecs_mount_target" {
-  count = 2
-  file_system_id = "${aws_efs_file_system.efs_ecs.id}"
-  subnet_id      = "${element(var.subnets_private, count.index)}"
+  count           = 2
+  file_system_id  = "${aws_efs_file_system.efs_ecs.id}"
+  subnet_id       = "${element(var.subnets_private, count.index)}"
   security_groups = ["${aws_security_group.graphql.id}"]
 }
 
 resource "aws_alb" "api_alb" {
-  name            = "${var.cluster_name}-alb-${var.vpc_environment}"
+  name            = "${var.cluster_name}"
   subnets         = ["${var.subnets_public}"]
   security_groups = ["${var.ui_app_security_group_id}"]
   internal        = false
   idle_timeout    = 60
-
-  tags {
-    Environment = "${var.vpc_environment}"
-    Name        = "${var.cluster_name}"
-  }
 }
 
 # Lookup cert in ACM
@@ -225,7 +218,7 @@ data "aws_acm_certificate" "san_cert" {
 
 # Create API application load balancer target group
 resource "aws_alb_target_group" "api_alb_target_group" {
-  name                 = "${var.cluster_name}-graphql-trg-grp-${var.vpc_environment}"
+  name                 = "${var.cluster_name}-web"
   port                 = 8080
   protocol             = "HTTP"
   vpc_id               = "${var.vpc_id}"
@@ -246,9 +239,9 @@ resource "aws_alb_listener" "api_alb_https" {
   }
 }
 
-# Create API application load balancer target group for web socket traffic (stickiness required)
+# Create API app load balancer target group for web socket traffic (stickiness required)
 resource "aws_alb_target_group" "api_ws_alb_target_group" {
-  name       = "${var.cluster_name}-ws-trg-grp-${var.vpc_environment}"
+  name       = "${var.cluster_name}-ws"
   port       = 8091
   protocol   = "HTTP"
   vpc_id     = "${var.vpc_id}"
@@ -264,7 +257,7 @@ resource "aws_alb_listener_rule" "graphql_https" {
 
   action {
     target_group_arn = "${aws_alb_target_group.api_alb_target_group.arn}"
-    type = "forward"
+    type             = "forward"
   }
 
   condition {
@@ -279,7 +272,7 @@ resource "aws_alb_listener_rule" "graphiql_https" {
 
   action {
     target_group_arn = "${aws_alb_target_group.api_alb_target_group.arn}"
-    type = "forward"
+    type             = "forward"
   }
 
   condition {
@@ -294,7 +287,7 @@ resource "aws_alb_listener_rule" "api_health_https" {
 
   action {
     target_group_arn = "${aws_alb_target_group.api_alb_target_group.arn}"
-    type = "forward"
+    type             = "forward"
   }
 
   condition {
@@ -309,7 +302,7 @@ resource "aws_alb_listener_rule" "ws_https" {
 
   action {
     target_group_arn = "${aws_alb_target_group.api_ws_alb_target_group.arn}"
-    type = "forward"
+    type             = "forward"
   }
 
   condition {
@@ -318,11 +311,9 @@ resource "aws_alb_listener_rule" "ws_https" {
   }
 }
 
-/**
- * Autoscaling group.
- */
+# Create Autoscaling group
 resource "aws_autoscaling_group" "graphql_asg" {
-  name                 = "${var.cluster_name}-asg-${var.vpc_environment}"
+  name                 = "${var.cluster_name}"
   vpc_zone_identifier  = ["${var.subnets_private}"]
   availability_zones   = ["${var.availability_zones}"]
   launch_configuration = "${aws_launch_configuration.ecs_launch_config.name}"
