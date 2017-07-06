@@ -1,15 +1,19 @@
-# The arn for the CI/CD user
-variable "cicd_user_arn" {}
+variable "cicd_user_arn" {
+  description = "The arn for the CI/CD user"
+}
 
 variable "domain_cert" {
-  default = "*.silverbackinsights.com"
+  description = "The cert domain name (in ACM)"
+  default     = "*.silverbackinsights.com"
 }
 
 variable "domain_fqdn" {
-  default = "dev.silverbackinsights.com"
+  description = "The FQDN for the given static"
+  default     = "dev.silverbackinsights.com"
 }
 
 variable "cert_statuses" {
-  type    = "list"
-  default = ["ISSUED"]
+  description = "The list of cert statuses to search upon"
+  type        = "list"
+  default     = ["ISSUED"]
 }

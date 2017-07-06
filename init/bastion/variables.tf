@@ -19,12 +19,6 @@ variable "key_file" {
   description = "(required) The relative path to the public key file"
 }
 
-# https://aws.amazon.com/amazon-linux-ami (scroll down and select the proper [region][HVM][SSD][EBS-backed][64bit] ami)
-# variable "ami_id" {
-#   description = "The ami to base the bastion host on"
-#   default     = "ami-a4c7edb2"
-# }
-
 variable "enable_public_ip" {
   description = "Whether to auto-assign public IP to the instance"
   default     = true
