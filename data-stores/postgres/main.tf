@@ -46,22 +46,25 @@ module "pg" {
   alarm_free_memory_threshold = "${var.alarm_free_memory_threshold_in_bytes}"
 }
 
+# Allow pg in
 resource "aws_security_group_rule" "rule" {
-  type = "ingress"
-  from_port = 5432
-  to_port = 5432
-  protocol = "tcp"
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
   source_security_group_id = "${var.bastion_security_group_id}"
 
-  security_group_id = "${module.pg.database_security_group_id}"
+  security_group_id        = "${module.pg.database_security_group_id}"
 }
 
+# Read in dns zone
 data "aws_route53_zone" "zone" {
   name    = "${var.dns_zone_name}"
   vpc_id  = "${var.vpc_id}"
 }
 
-resource "aws_route53_record" "pg" {
+# Add CNAME to zone
+resource "aws_route53_record" "record" {
   zone_id = "${data.aws_route53_zone.zone.zone_id}"
   name    = "psql.${data.aws_route53_zone.zone.name}"
   type    = "CNAME"
