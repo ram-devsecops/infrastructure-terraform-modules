@@ -66,7 +66,7 @@ data "aws_route53_zone" "zone" {
 # Add CNAME to zone
 resource "aws_route53_record" "record" {
   zone_id = "${data.aws_route53_zone.zone.zone_id}"
-  name    = "psql.${data.aws_route53_zone.zone.name}"
+  name    = "pg.${data.aws_route53_zone.zone.name}"
   type    = "CNAME"
   ttl     = "300"
   records = ["${module.pg.hostname}"]
