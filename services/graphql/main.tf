@@ -184,12 +184,6 @@ resource "aws_launch_configuration" "ecs_launch_config" {
   }
 }
 
-# Create internal graphql zone
-resource "aws_route53_zone" "graphql" {
-  name   = "internal.silverbackinsights.com."
-  vpc_id = "${var.vpc_id}"
-}
-
 # Create efs file system
 resource "aws_efs_file_system" "efs_ecs" {
   creation_token = "efs-ecs"

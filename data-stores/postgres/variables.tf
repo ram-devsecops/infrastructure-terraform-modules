@@ -7,6 +7,10 @@ variable "db_password" {
   description = "(required) The master db password. Should come from an environment variable"
 }
 
+variable "dns_zone_name" {
+  description = "The route53 zone name to attach the pg CNAME record to"
+}
+
 variable "subnet_ids" {
   description = "(required) List of subnet ids where auto-scaling should create instances"
   type        = "list"

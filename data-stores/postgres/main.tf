@@ -57,7 +57,7 @@ resource "aws_security_group_rule" "rule" {
 }
 
 data "aws_route53_zone" "zone" {
-  name    = "${var.route53_zone_name}"
+  name    = "${var.dns_zone_name}"
   vpc_id  = "${var.vpc_id}"
 }
 
